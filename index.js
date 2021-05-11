@@ -22,10 +22,10 @@ const database = require('knex')({
 })
 
 
-app.get('/', (req, res) => res.send('Hello World!'));
+app.get('/data', (req, res) => res.send('Hello World!'));
 
 
-app.get('/data', async (req /* Requete du client */ , res /* Reponse du serveur */) => {
+app.get('/', async (req /* Requete du client */ , res /* Reponse du serveur */) => {
     database.select('*').from('bar').then(bars => res.send(bars))
  })
 
