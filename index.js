@@ -22,7 +22,7 @@ const database = require('knex')({
 })
 
 
-app.get('/data', (req, res) => res.send('Hello World!'));
+//app.get('/data', (req, res) => res.send('Hello World!'));
 
 
 app.get('/', async (req /* Requete du client */ , res /* Reponse du serveur */) => {
