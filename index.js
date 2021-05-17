@@ -2,7 +2,7 @@
 const dotenv = require('dotenv')
 dotenv.config()
 
-const initDatabase = require('../BarMania-Back/database')
+const initDatabase = require('./database')
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser')
