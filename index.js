@@ -1,53 +1,51 @@
 //Dependencies
+const dotenv = require('dotenv')
+dotenv.config()
 
+const initDatabase = require('../BarMania-Back/database')
 const express = require('express');
 const cors = require('cors');
+const bodyParser = require('body-parser')
 const app = express();
+
 app.use(cors())
+app.use(bodyParser.json())
 
-const port = 3000;
 
-//Knex Connect 
+const database = initDatabase()
 
-const database = require('knex')({
-  client: 'pg',
-  connection: {
-    host : 'ec2-34-193-113-223.compute-1.amazonaws.com',
-    port : '5432',
-    user : 'irygyvyjmzluyb',
-    password : '184b80a4a95ed1fbd72709dd2727c404ed345b9bb0c12bd085a7835feb640d6a',
-    database : 'd5lockamu7mij0',
-    ssl : { rejectUnauthorized: false }
-  }
+app.post('/', async (req, res) => {
+    //database.select('*').from('bar').then(bars => res.send(bars))
+    database('utilisateur').count('email').where('email', req.body.email).then(function(result) {
+        if(result[0].count == '0') {
+            database('utilisateur').insert({pseudo: req.body.pseudo, nom: req.body.nom, prenom: req.body.prenom, email: req.body.email, password: req.body.mdp}).then(res.sendStatus(200))
+        }
+        else {
+            res.status(400).send(JSON.stringify('Cette adresse email est déjà utilisée.'))
+        }
+    })
+    
+
+})
+
+app.post('/connexion', async (req, res) => {
+    database('utilisateur').where({email: req.body.email}).select(['email', 'password']).then(function(result) {
+        if(result.length != 0) {
+            if(result[0].email == req.body.email && result[0].password == req.body.mdp) {
+                res.sendStatus(200)
+            }
+            else {
+                res.status(400).send(JSON.stringify('L\'adresse email ou le mot de passe est incorrect.'))
+            }
+        }
+        else {
+            res.status(400).send(JSON.stringify('L\'adresse email ou le mot de passe est incorrect.'))
+        }
+    })
+    
+
 })
 
 
-//app.get('/data', (req, res) => res.send('Hello World!'));
 
-
-app.get('/', async (req /* Requete du client */ , res /* Reponse du serveur */) => {
-    database.select('*').from('bar').then(bars => res.send(bars))
- })
-
-/*app.get('/data/:id', async (req, res) => {
-   const id = req.params.id;
-
-   const dataFromDB = await knex('data')
-   .where({
-        numero: id
-      })
-   .select('*')
-
-   if (dataFromDB.length === 0) {
-      res.status(404).send({ Error: "Pokemon not found" });
-      return;
-   }
-
-   const dataToSend = JSON.parse(dataFromDB[0].details);
-   res.send(dataToSend);
-})
-*/
-
-app.listen(process.env.PORT || port, () => console.log(`Example app listening at http://localhost:${port}`));
-
-//module.exports = app;
+app.listen(process.env.PORT, () => console.log(`App listening at http://localhost:${process.env.PORT}`))
