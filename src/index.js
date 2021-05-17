@@ -71,6 +71,12 @@ app.post('/connexion', async (req, res) => {
     })
 })
 
-//main('geranludovic@gmail.com', 'ludo')
+app.get('/listebars/:latitude/:longitude', async (req, res) => {
+    const { latitude, longitude } = req.params
+
+    console.log(req.params.latitude, req.params.longitude)
+})
+
+
 
 app.listen(process.env.PORT, () => console.log(`App listening at http://localhost:${process.env.PORT}`))
