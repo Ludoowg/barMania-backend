@@ -77,6 +77,4 @@ app.get('/listebars/:latitude/:longitude', async (req, res) => {
     console.log(req.params.latitude, req.params.longitude)
 })
 
-
-
 app.listen(process.env.PORT, () => console.log(`App listening at http://localhost:${process.env.PORT}`))
