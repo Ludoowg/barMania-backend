@@ -14,7 +14,7 @@ app.use(bodyParser.json())
 
 const database = initDatabase()
 
-function sendEmail(recipient, body){
+function sendEmail(recipient){
 
     const mailjet = connect(
         process.env.MAILJET_API_KEY, 
@@ -28,9 +28,9 @@ function sendEmail(recipient, body){
             {
                 From: {Email: 'ludovic.geran@efrei.net', Name: 'Ludovic'},
                 To: [recipient],
-                Subject: 'Hello',
+                Subject: 'Merci de votre inscription sur BarMania!',
                 TextPart: 'default  text',
-                HTMLPart: body
+                HTMLPart: 'Nous sommes très heureux de votre inscription ! Vous allez adorer trouver des bars près de chez vous!'
             }
         ]
      })
@@ -38,7 +38,7 @@ function sendEmail(recipient, body){
 }
 
 async function main(usermail, username){
-    await sendEmail({Email: usermail, Name: username}, '<h1> Hello Binbinks <h1>')
+    await sendEmail({Email: usermail, Name: username})
     console.log("After mail")
     }
 
