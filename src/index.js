@@ -42,12 +42,13 @@ async function main(usermail, username){
     console.log("After mail")
     }
 
-app.post('/', async (req, res) => {
+app.post('/inscription', async (req, res) => {
     //database.select('*').from('bar').then(bars => res.send(bars))
     database('utilisateur').count('email').where('email', req.body.email).then(function(result) {
         if(result[0].count == '0') {
             database('utilisateur').insert({pseudo: req.body.pseudo, nom: req.body.nom, prenom: req.body.prenom, email: req.body.email, password: req.body.mdp}).then(res.sendStatus(200))
             main(req.body.email,req.body.prenom)
+            console.log("bien macher")
         }
         else {
             res.status(400).send(JSON.stringify('Cette adresse email est déjà utilisée.'))
@@ -76,5 +77,6 @@ app.get('/listebars/:latitude/:longitude', async (req, res) => {
 
     console.log(req.params.latitude, req.params.longitude)
 })
+
 
 app.listen(process.env.PORT, () => console.log(`App listening at http://localhost:${process.env.PORT}`))
