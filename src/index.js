@@ -47,7 +47,7 @@ app.get('/skurt', async (req, res) => {
     //.then(function(result) {
      //   res.status(200).send(JSON.stringify(result))
     //})
-    console.log("bien macher")
+    res.send("bien macher")
 })
 
 app.post('/inscription', async (req, res) => {
