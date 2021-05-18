@@ -42,13 +42,20 @@ async function main(usermail, username){
     console.log("After mail")
     }
 
+app.get('/skurt', async (req, res) => {
+    //database('utilisateur').where('email', req.body.email).select(['pseudo', 'email', 'password'])
+    //.then(function(result) {
+     //   res.status(200).send(JSON.stringify(result))
+    //})
+    console.log("bien macher")
+})
+
 app.post('/inscription', async (req, res) => {
     //database.select('*').from('bar').then(bars => res.send(bars))
     database('utilisateur').count('email').where('email', req.body.email).then(function(result) {
         if(result[0].count == '0') {
             database('utilisateur').insert({pseudo: req.body.pseudo, nom: req.body.nom, prenom: req.body.prenom, email: req.body.email, password: req.body.mdp}).then(res.sendStatus(200))
             main(req.body.email,req.body.prenom)
-            console.log("bien macher")
         }
         else {
             res.status(400).send(JSON.stringify('Cette adresse email est déjà utilisée.'))
