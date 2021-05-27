@@ -78,6 +78,12 @@ app.get('/listebars/:latitude/:longitude', async (req, res) => {
     console.log(req.params.latitude, req.params.longitude)
 })
 
+ app.get('/binks', async (req, res) => {
+    database('utilisateur').select('*').from('bar').then(function(result) {
+        res.send(result)
+    })
+})
+
 //main("geranludovic@gmail.com", "ludo")
 
 app.listen(process.env.PORT, () => console.log(`App listening at http://localhost:${process.env.PORT}`))
