@@ -42,13 +42,6 @@ async function main(usermail, username){
     console.log("After mail")
     }
 
-app.get('/skurt', async (req, res) => {
-    //database('utilisateur').where('email', req.body.email).select(['pseudo', 'email', 'password'])
-    //.then(function(result) {
-     //   res.status(200).send(JSON.stringify(result))
-    //})
-    res.send("bien macher")
-})
 
 app.post('/inscription', async (req, res) => {
     //database.select('*').from('bar').then(bars => res.send(bars))
@@ -85,5 +78,6 @@ app.get('/listebars/:latitude/:longitude', async (req, res) => {
     console.log(req.params.latitude, req.params.longitude)
 })
 
+//main("geranludovic@gmail.com", "ludo")
 
 app.listen(process.env.PORT, () => console.log(`App listening at http://localhost:${process.env.PORT}`))
