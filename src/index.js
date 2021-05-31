@@ -85,3 +85,5 @@ app.get('/listebars/:latitude/:longitude', async (req, res) => {
 })
 
 app.listen(process.env.PORT, () => console.log(`App listening at http://localhost:${process.env.PORT}`))
+
+//Binbinks
