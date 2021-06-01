@@ -1,3 +1,3 @@
-web: npm install
-web: cd src
+worker: npm install
+worker: cd src
 web: node index.js
