@@ -58,7 +58,7 @@ app.get('/', async (req, res) => {
 })
 
 app.get('/toto', async (req, res) => {
-    res.send('titi')
+    res.send(process.env.DATABASE_USER)
 })
 
 app.post('/', async (req, res) => {
