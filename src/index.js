@@ -1,7 +1,7 @@
 //Dependencies
 const dotenv = require('dotenv')
 dotenv.config()
-import { connect } from 'node-mailjet'
+const { connect } = require('node-mailjet')
 const initDatabase = require('../database')
 const { Pool } = require('pg')
 const express = require('express');
