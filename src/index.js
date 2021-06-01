@@ -53,6 +53,14 @@ async function main(usermail, username){
     console.log("After mail")
     }
 
+app.get('/', async (req, res) => {
+    res.send('toto')
+})
+
+app.get('/toto', async (req, res) => {
+    res.send('titi')
+})
+
 app.post('/', async (req, res) => {
     database('utilisateur').count('email').where('email', req.body.email).then(function(result) {
         if(result[0].count == '0') {
