@@ -1,7 +1,7 @@
 //Dependencies
 const dotenv = require('dotenv')
 dotenv.config()
-// import { connect } from 'node-mailjet'
+import { connect } from 'node-mailjet'
 const initDatabase = require('../database')
 const { Pool } = require('pg')
 const express = require('express');
@@ -25,39 +25,39 @@ const pool = new Pool({
     connectionString: 'postgres://irygyvyjmzluyb:184b80a4a95ed1fbd72709dd2727c404ed345b9bb0c12bd085a7835feb640d6a@ec2-34-193-113-223.compute-1.amazonaws.com:5432/d5lockamu7mij0'
 })
 
-// function sendEmail(recipient){
+function sendEmail(recipient){
 
-//     const mailjet = connect(
-//         process.env.MAILJET_API_KEY, 
-//         process.env.MAILJET_API_SECRET
-//     ) 
+    const mailjet = connect(
+        process.env.MAILJET_API_KEY, 
+        process.env.MAILJET_API_SECRET
+    ) 
 
-//     return mailjet
-//     .post("send", { version: 'v3.1'}) 
-//     .request( {
-//         Messages: [
-//             {
-//                 From: {Email: 'ludovic.geran@efrei.net', Name: 'Ludovic'},
-//                 To: [recipient],
-//                 Subject: 'Merci de votre inscription sur BarMania!',
-//                 TextPart: 'default  text',
-//                 HTMLPart: 'Nous sommes très heureux de votre inscription ! Vous allez adorer trouver des bars près de chez vous!'
-//             }
-//         ]
-//      })
-//      .then(console.log)
-// }
+    return mailjet
+    .post("send", { version: 'v3.1'}) 
+    .request( {
+        Messages: [
+            {
+                From: {Email: 'ludovic.geran@efrei.net', Name: 'Ludovic'},
+                To: [recipient],
+                Subject: 'Merci de votre inscription sur BarMania!',
+                TextPart: 'default  text',
+                HTMLPart: 'Nous sommes très heureux de votre inscription ! Vous allez adorer trouver des bars près de chez vous!'
+            }
+        ]
+     })
+     .then(console.log)
+}
 
-// async function main(usermail, username){
-//     await sendEmail({Email: usermail, Name: username})
-//     console.log("After mail")
-//     }
+async function main(usermail, username){
+    await sendEmail({Email: usermail, Name: username})
+    console.log("After mail")
+    }
 
 app.post('/', async (req, res) => {
     database('utilisateur').count('email').where('email', req.body.email).then(function(result) {
         if(result[0].count == '0') {
             database('utilisateur').insert({pseudo: req.body.pseudo, nom: req.body.nom, prenom: req.body.prenom, email: req.body.email, password: req.body.mdp}).then(res.sendStatus(200))
-            // main(req.body.email,req.body.prenom)
+            main(req.body.email,req.body.prenom)
         }
         else {
             res.status(400).send(JSON.stringify('Cette adresse email est déjà utilisée.'))
@@ -130,7 +130,7 @@ app.post('/profilPassword', async (req, res) => {
 app.get('/liste_evenements/:latitude/:longitude', async (req, res) => {
     const { latitude, longitude } = req.params
     pool.query(`
-                SELECT * FROM
+                SELECT DISTINCT * FROM
                     (SELECT idbar, nombar, rue, ville, codepostal, numerotel, latitude, longitude, ('8000' * acos(cos(radians(${latitude})) * cos(radians(latitude)) *
                     cos(radians(longitude) - radians(${longitude})) +
                     sin(radians(${latitude})) * sin(radians(latitude))))
