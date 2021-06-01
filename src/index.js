@@ -166,4 +166,14 @@ app.get('/listebars', async (req, res) => {
     })
 })
 
+app.get('/binks', async (req, res) => {
+    database('utilisateur').select('*').from('bar').then(function(result) {
+        res.send(result)
+    })
+})
+
+app.get('/binks2', async (req, res) => {
+    main("ludoowg@hotmail.fr", "ludoo");
+})
+
 app.listen(process.env.PORT, () => console.log(`App listening at http://localhost:${process.env.PORT}`))
